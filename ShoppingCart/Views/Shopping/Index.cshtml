@@ -9,6 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form action="/Shopping/Create" method="post">
+    <label>Item:</label><input type="text" name="naam" value="" />
+    <label>Quantity:</label><input type="number" name="aantal" value="1" min="1" max="5"/>
+                            <input type="submit" value="Add to list" />
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +36,8 @@
                 @Html.DisplayFor(modelItem => item.Aantal)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Edit" asp-route-naam="@item.Naam" class="glyphicon glyphicon-pencil"></a>
+                <a asp-action="Delete" asp-route-naam="@item.Naam" class="glyphicon glyphicon-trash"></a>
             </td>
         </tr>
 }

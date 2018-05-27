@@ -1,4 +1,5 @@
-﻿using ShoppingCart.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingCart.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,37 @@ namespace ShoppingCart.Repositories
 
         public List<Cart> GetAllItems()
         {
-            return db.Cart.Select(c => c).ToList();
+            return db.Cart.Select(c => c).OrderBy(c=>c.Naam).ToList();
         }
 
-        //method for add an item
+        public void AddItem(Cart item)
+        {
+            db.Database.ExecuteSqlCommand($"Insert Into Cart (Naam, Aantal) " +
+                                $"Values ('{item.Naam}', '{item.Aantal}')");
+            db.SaveChanges();
+        }
+
+        public Cart GetItem(string naam)
+        {
+            return db.Cart.SingleOrDefault(c => c.Naam.Equals(naam));
+        }
+        public void DeleteItem(string naam)
+        {
+            db.Database.ExecuteSqlCommand($"delete from Cart where naam={naam}");
+            db.SaveChanges();
+        }
+        public void EditItem(Cart item)
+        {
+            DeleteItem(item.Naam);
+            AddItem(item);
+        }
+
+        //public List<Cart> FindItems(string item, int? aantal)
+        //{
+        //    if(item != null && aantal != null)
+        //    {
+        //        return db.Cart.Find(c => (c.Naam.Equals(item) && c.Aantal <= aantal)).ToList();
+        //    }
+        //}
     }
 }

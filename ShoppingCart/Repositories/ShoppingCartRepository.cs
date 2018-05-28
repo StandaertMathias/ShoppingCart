@@ -17,7 +17,7 @@ namespace ShoppingCart.Repositories
 
         public List<Cart> GetAllItems()
         {
-            return db.Cart.Select(c => c).OrderBy(c=>c.Naam).ToList();
+            return db.Cart.Select(c => c).OrderBy(c => c.Naam).ToList();
         }
 
         public void AddItem(Cart item)
@@ -42,12 +42,12 @@ namespace ShoppingCart.Repositories
             AddItem(item);
         }
 
-        //public List<Cart> FindItems(string item, int? aantal)
-        //{
-        //    if(item != null && aantal != null)
-        //    {
-        //        return db.Cart.Find(c => (c.Naam.Equals(item) && c.Aantal <= aantal)).ToList();
-        //    }
-        //}
+        public List<Cart> FindItems(string item, int? aantal)
+        {
+            string sql = $"Select * from Cart " +
+                 $"where Naam like '{item ?? "%"}%' " +
+                 $"and Aantal <= {aantal ?? byte.MaxValue}";
+            return db.Cart.FromSql(sql).ToList();
+        }
     }
 }

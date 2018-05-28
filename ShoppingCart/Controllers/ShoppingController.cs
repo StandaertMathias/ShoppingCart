@@ -52,11 +52,12 @@ namespace ShoppingCart.Controllers
             CartRepo.DeleteItem(naam);
             return RedirectToAction("index");
         }
-        //[Route("Find")]
-        //public IActionResult Find(string item, int? aantal)
-        //{
-        //    List<Cart> found = CartRepo.FindItems(item, aantal);
-        //    return View("Index",found);
-        //}
+        [Route("Find")]
+        public IActionResult Find(string item, int? aantal)
+
+        {
+            List<Cart> found = CartRepo.FindItems(item, aantal);
+            return View("Index", found);
+        }
     }
 }
